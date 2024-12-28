@@ -7,12 +7,23 @@ import { PlusIcon } from "@radix-ui/react-icons"
 import InviteUserForm from "./InviteUserForm"
 import IssueList from "./IssueList"
 import ChatBox from "./ChatBox"
+import { useEffect } from "react"
+import { fetchProjectById } from "@/Redux/Project/Action"
+import { useDispatch, useSelector } from "react-redux"
+import { useParams } from "react-router-dom"
+import { store } from "@/Redux/Store"
 
 const ProjectDetails = () => {
 
+    const dispatch = useDispatch();
+    const { project } = useSelector(store => store)
+    const { id } = useParams();
     const handleProjectInvitation = () => {
-
     }
+
+    useEffect(() => {
+        dispatch(fetchProjectById(id))
+    }, [id])
 
     return (
         <>
@@ -20,22 +31,26 @@ const ProjectDetails = () => {
                 <div className="lg:flex gap-5 justify-between pb-4">
                     <ScrollArea className="h-screen lg:w-[69%] pr-2">
                         <div className="text-gray-400 pb-10 w-full">
-                            <h1 className="text-lg font-semibold pb-5">Create E-commerce website using react</h1>
+                            <h1 className="text-gray-200 text-lg font-semibold pb-5">
+                                {project.projectDetails?.name}
+                            </h1>
 
                             <div className="space-y-5 pb-10  text-sm">
-                                <p className="w-full md:max-w-lg lg:max-w-xl text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos corrupti unde exercitationem sequi nostrum sit.</p>
+                                <p className="w-full md:max-w-lg lg:max-w-xl text-sm">
+                                    {project.projectDetails?.description}
+                                </p>
 
                                 <div className="flex">
                                     <p className="w-36">Project Lead : </p>
-                                    <p>Chandan kumar</p>
+                                    <p>{project.projectDetails?.owner.fullName}</p>
                                 </div>
 
                                 <div className="flex">
                                     <p className="w-36">Members :</p>
 
                                     <div className="flex items-center gap-2">
-                                        {[1, 1, 1, 1].map((item) => <Avatar key={item} className="cursor-pointer">
-                                            <AvatarFallback>c</AvatarFallback>
+                                        {project.projectDetails?.team.map((item) => <Avatar key={item} className="cursor-pointer">
+                                            <AvatarFallback className="text-lg">{item.fullName[0]}</AvatarFallback>
                                         </Avatar>)}
                                     </div>
 
@@ -57,13 +72,16 @@ const ProjectDetails = () => {
 
                                 <div className="flex">
                                     <p className="w-36">Category : </p>
-                                    <p>Fullstack</p>
+                                    <p>{project.projectDetails?.category}</p>
                                 </div>
 
                                 <div className="flex">
                                     <p className="w-36">Progress : </p>
-                                    <Badge>In Progress</Badge>
+                                    <Badge className="cursor-pointer">In Progress
+                                    </Badge>
                                 </div>
+
+
                             </div>
 
 

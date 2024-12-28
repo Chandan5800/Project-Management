@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import SubscriptionCard from "./SubscriptionCard";
 
 const monthlyPlan = [
@@ -23,8 +24,9 @@ const annualPlan = [
     "Everything which monthly plan has",
 ];
 
-const freePlan = [
+const weeklyPlan = [
     "Add only 3 projects",
+    "Access to live chat",
     "Basic Task Management",
     "Project Collaboration",
     "Basic Reporting",
@@ -32,19 +34,19 @@ const freePlan = [
     "Basic Access Control",
 ];
 
-
-
 export default function Subscription() {
+    const { subscription } = useSelector((store) => store);
+
     return (
         <div className="p-10">
             <h1 className="text-5xl font-semibold py-5 pb-16 text-center">Pricing</h1>
             <div className="flex flex-col lg:flex-row justify-center items-center gap-9">
                 <SubscriptionCard data={{
-                    planName: "Free",
-                    features: freePlan,
-                    planType: "FREE",
-                    price: 0,
-                    buttonName: true ? "Current Plan" : "Get Started"
+                    planName: "Weekly",
+                    features: weeklyPlan,
+                    planType: "WEEKLY",
+                    price: 249,
+                    buttonName: subscription.userSubscription?.planType == "WEEKLY" ? "Current Plan" : "Get Started"
                 }} />
 
                 <SubscriptionCard data={{
@@ -52,7 +54,7 @@ export default function Subscription() {
                     features: monthlyPlan,
                     planType: "MONTHLY",
                     price: 799,
-                    buttonName: true ? "Current Plan" : "Get Started"
+                    buttonName: subscription.userSubscription?.planType == "MONTHLY" ? "Current Plan" : "Get Started"
                 }} />
 
                 <SubscriptionCard data={{
@@ -60,7 +62,7 @@ export default function Subscription() {
                     features: annualPlan,
                     planType: "ANNUALLY",
                     price: 6911,
-                    buttonName: true ? "Current Plan" : "Get Started"
+                    buttonName: subscription.userSubscription?.planType == "ANNUALLY" ? "Current Plan" : "Get Started"
                 }} />
 
             </div>

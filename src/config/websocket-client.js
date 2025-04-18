@@ -1,7 +1,7 @@
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
-const socketUrl = "https://project-management-server-production-f25b.up.railway.app/ws";
+const socketUrl = "https://project-management-server-production-fe3c.up.railway.app/ws";
 
 const client = new Client({
     brokerURL: socketUrl, // Use SockJS fallback if WebSocket is unavailable
